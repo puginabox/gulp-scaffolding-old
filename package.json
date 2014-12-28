@@ -9,6 +9,7 @@
   },
   "author": "Griffin Byron",
   "devDependencies": {
-    "gulp": "*"
+    "gulp": "*",
+    "gulp-util": "*"
   }
 }
