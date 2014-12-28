@@ -1,1 +1,1 @@
-console.log('mainController.js loaded');
+console.log('2-mainController loaded');

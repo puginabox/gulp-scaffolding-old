@@ -1,1 +1,1 @@
-console.log('page2Controller.js loaded');
+console.log('4-page2Controller loaded');

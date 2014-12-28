@@ -1,1 +1,2 @@
-console.log('directives is loaded');
+// directives.js
+console.log('5-directives loaded');
