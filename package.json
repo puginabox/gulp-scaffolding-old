@@ -1,0 +1,11 @@
+{
+  "name": "workflows",
+  "version": "0.0.1",
+  "description": "Gulp Project Setup",
+  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:puginabox/gulp-scaffolding.git"
+  },
+  "author": "Griffin Byron"
+}
