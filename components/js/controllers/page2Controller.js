@@ -1,0 +1,1 @@
+console.log('page2Controller.js loaded');
