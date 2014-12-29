@@ -48,6 +48,7 @@ gulped.task('compass', function(){
           .pipe(gulped.dest('builds/development/css'))
 });
 
+gulped.task('default', ['welcome', 'js', 'compass']);
 
 
 
