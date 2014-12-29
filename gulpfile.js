@@ -45,10 +45,17 @@ gulped.task('compass', function(){
             style: 'expanded'
           }))
           .on('error', gutil.log)
-          .pipe(gulped.dest('builds/development/css'))
+          .pipe(gulped.dest('builds/development/css'));
 });
 
-gulped.task('default', ['welcome', 'js', 'compass']);
+// Watch everything
+gulped.task('watch', function(){
+    gulped.watch(jsSources, ['js']);
+    gulped.watch('components/sass/**/*.scss', ['compass']);
+});
+
+
+gulped.task('default', ['welcome', 'js', 'compass', 'watch']);
 
 
 

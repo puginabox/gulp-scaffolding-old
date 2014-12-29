@@ -18,6 +18,7 @@
     "gulp-compass": "*",
     "gulp-concat": "*",
     "gulp-util": "*",
+    "gulp-watch": "*",
     "jquery": "*",
     "modernizr": "*"
   }
