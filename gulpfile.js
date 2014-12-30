@@ -8,7 +8,8 @@ var gulped = require('gulp'),       //assign the gulp library to gulped variable
     browserify = require('gulp-browserify'),
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
-    minifyHTML = require('gulp-minify-html');
+    minifyHTML = require('gulp-minify-html'),
+    minifyJSON = require('gulp-jsonminify');
 
 
 //--- Variable Declarations -  done separately, since assigns are based on the build
@@ -61,7 +62,7 @@ jsonSources = [buildDirectory + 'js/*.json'];
 gulped.task('welcome', function(){
     // log is a gulp-util method
     gutil.log('Gulp ready to go, with a ' + environment + ' build!'); 
-    gutil.log('default build is dev, but run this command to change to production: NODE_ENV=production gulp');
+    gutil.log('default build is dev, but run this command to change to production: "NODE_ENV=production gulp"');
 });
 
 //--- concatenate js task
@@ -97,15 +98,17 @@ gulped.task('connect', function(){
 
 //---- @HTML task
 gulped.task('htmlChanges', function(){
-    gulped.src('builds/development/*.html')
+    gulped.src('builds/development/**/*.html')
     .pipe(gulpif(environment==='production', minifyHTML()))
-    .pipe(gulpif(environment==='production', gulped.dest(buildDirectory)))  
+    .pipe(gulpif(environment==='production', gulped.dest('builds/production')))  
     .pipe(connect.reload())
 });
 
 //---- @JSON task
 gulped.task('jsonChanges', function(){
-    gulped.src(jsonSources)
+    gulped.src('builds/development/js/*.json' )
+    .pipe(gulpif(environment==='production', minifyJSON()))
+    .pipe(gulpif(environment==='production', gulped.dest('builds/production/js')))  
     .pipe(connect.reload())
 });
 
@@ -114,6 +117,7 @@ gulped.task('watch', function(){
     gulped.watch(jsSources, ['js']);
     gulped.watch('components/sass/**/*.scss', ['compass']);
     gulped.watch('builds/development/*.html', ['htmlChanges']);
+    gulped.watch('builds/development/views/*.html', ['htmlChanges']);
     gulped.watch(jsonSources, ['jsonChanges']);
 });
 
