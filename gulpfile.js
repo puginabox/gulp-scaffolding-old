@@ -7,7 +7,8 @@ var gulped = require('gulp'),       //assign the gulp library to gulped variable
     connect = require('gulp-connect'),
     browserify = require('gulp-browserify'),
     gulpif = require('gulp-if'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    minifyHTML = require('gulp-minify-html');
 
 
 //--- Variable Declarations -  done separately, since assigns are based on the build
@@ -96,7 +97,9 @@ gulped.task('connect', function(){
 
 //---- @HTML task
 gulped.task('htmlChanges', function(){
-    gulped.src(htmlSources)
+    gulped.src('builds/development/*.html')
+    .pipe(gulpif(environment==='production', minifyHTML()))
+    .pipe(gulpif(environment==='production', gulped.dest(buildDirectory)))  
     .pipe(connect.reload())
 });
 
@@ -110,7 +113,7 @@ gulped.task('jsonChanges', function(){
 gulped.task('watch', function(){
     gulped.watch(jsSources, ['js']);
     gulped.watch('components/sass/**/*.scss', ['compass']);
-    gulped.watch(htmlSources, ['htmlChanges']);
+    gulped.watch('builds/development/*.html', ['htmlChanges']);
     gulped.watch(jsonSources, ['jsonChanges']);
 });
 

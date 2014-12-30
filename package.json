@@ -19,6 +19,7 @@
     "gulp-concat": "*",
     "gulp-connect": "*",
     "gulp-if": "*",
+    "gulp-minify-html": "*",
     "gulp-uglify": "*",
     "gulp-util": "*",
     "gulp-watch": "*",
