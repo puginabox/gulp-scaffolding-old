@@ -23,6 +23,7 @@ var jsSources = [
     ];
 var sassSources = 'components/sass/master.scss';
 var htmlSources = 'builds/development/*.html';
+var jsonSources = 'builds/development/js/*.json';
 
 
 //--- log message  task
@@ -61,8 +62,14 @@ gulped.task('connect', function(){
 });
 
 //---- html task
-gulped.task('html', function(){
+gulped.task('htmlChanges', function(){
     gulped.src(htmlSources)
+    .pipe(connect.reload())
+});
+
+//---- json task
+gulped.task('jsonChanges', function(){
+    gulped.src(jsonSources)
     .pipe(connect.reload())
 });
 
@@ -70,14 +77,13 @@ gulped.task('html', function(){
 gulped.task('watch', function(){
     gulped.watch(jsSources, ['js']);
     gulped.watch('components/sass/**/*.scss', ['compass']);
-    gulped.watch(htmlSources, ['html']);
+    gulped.watch(htmlSources, ['htmlChanges']);
+    gulped.watch(jsonSources, ['jsonChanges']);
 });
 
 
 
-
-
-gulped.task('default', ['welcome', 'js', 'compass', 'connect', 'watch']);
+gulped.task('default', ['welcome', 'htmlChanges', 'jsonChanges', 'js', 'compass', 'connect', 'watch']);
 
 
 
