@@ -18,6 +18,8 @@
     "gulp-compass": "*",
     "gulp-concat": "*",
     "gulp-connect": "*",
+    "gulp-if": "*",
+    "gulp-uglify": "*",
     "gulp-util": "*",
     "gulp-watch": "*",
     "jquery": "*",

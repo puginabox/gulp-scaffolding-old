@@ -5,7 +5,9 @@ var gulped = require('gulp'),       //assign the gulp library to gulped variable
     concat = require('gulp-concat'),
     compass = require('gulp-compass'), 
     connect = require('gulp-connect'),
-    browserify = require('gulp-browserify');
+    browserify = require('gulp-browserify'),
+    gulpif = require('gulp-if'),
+    uglify = require('gulp-uglify');
 
 
 //--- Variable Declarations -  done separately, since assigns are based on the build
@@ -56,14 +58,17 @@ jsonSources = [buildDirectory + 'js/*.json'];
 
 //--- log message  task
 gulped.task('welcome', function(){
-    gutil.log('Gulp ready to go'); // log is a gulp-util method
+    // log is a gulp-util method
+    gutil.log('Gulp ready to go, with a ' + environment + ' build!'); 
+    gutil.log('default build is dev, but run this command to change to production: NODE_ENV=production gulp');
 });
 
 //--- concatenate js task
 gulped.task('js', function(){
     gulped.src(jsSources)
           .pipe(concat('behavior.js')) // name of concatendated file
-          .pipe(browserify())    
+          .pipe(browserify()) 
+          .pipe(gulpif(environment=== 'production', uglify()))     
     .pipe(gulped.dest(buildDirectory + 'js')) // destination of concatenation
           .pipe(connect.reload())
 });
