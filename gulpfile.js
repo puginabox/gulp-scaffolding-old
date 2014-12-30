@@ -14,9 +14,10 @@ var environment,
     sassSources,
     htmlSources,
     jsonSources,
-    buildDirectory;
+    buildDirectory,
+    sassStyle;
 
-// NodeJS used to determine which build
+//--- NodeJS used to determine which build
 environment = process.env.NODE_ENV || 'development';
 /* 
     for Windoze users, just change this line to 
@@ -25,8 +26,10 @@ environment = process.env.NODE_ENV || 'development';
 if (environment==='development') {
     buildDirectory = 'builds/development/'; 
         //dont forget trailing slash for concatination!
+    sassStyle = 'expanded';
 } else {
     buildDirectory = 'builds/production/';
+    sassStyle = 'compressed';
 }
  
 
@@ -65,20 +68,20 @@ gulped.task('js', function(){
           .pipe(connect.reload())
 });
 
-//--- Sass processing task
+//--- @COMPASS Sass processing task
 gulped.task('compass', function(){
     gulped.src(sassSources)
           .pipe(compass({
             sass: 'components/sass',
             image: buildDirectory + 'img',
-            style: 'expanded'
+            style: sassStyle
           }))
           .on('error', gutil.log)
           .pipe(gulped.dest(buildDirectory + 'css'))
           .pipe(connect.reload())    
 });
 
-//---- Connect server & live-reloading task
+//---- @CONNECT server & live-reloading task
 gulped.task('connect', function(){
     connect.server({
         root: buildDirectory,
@@ -86,19 +89,19 @@ gulped.task('connect', function(){
     });
 });
 
-//---- html task
+//---- @HTML task
 gulped.task('htmlChanges', function(){
     gulped.src(htmlSources)
     .pipe(connect.reload())
 });
 
-//---- json task
+//---- @JSON task
 gulped.task('jsonChanges', function(){
     gulped.src(jsonSources)
     .pipe(connect.reload())
 });
 
-//--- Watch everything task
+//--- @WATCH everything task
 gulped.task('watch', function(){
     gulped.watch(jsSources, ['js']);
     gulped.watch('components/sass/**/*.scss', ['compass']);
