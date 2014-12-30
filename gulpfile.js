@@ -1,29 +1,54 @@
 
 //require is a node.js method
 var gulped = require('gulp'),       //assign the gulp library to gulped variable
-    gutil = require('gulp-util'),    //assign the gulp-util library to gulped variable
+    gutil = require('gulp-util'),    // etc
     concat = require('gulp-concat'),
     compass = require('gulp-compass'), 
     connect = require('gulp-connect'),
     browserify = require('gulp-browserify');
+
+
+//--- Variable Declarations -  done separately, since assigns are based on the build
+var environment,
+    jsSources,
+    sassSources,
+    htmlSources,
+    jsonSources,
+    buildDirectory;
+
+// NodeJS used to determine which build
+environment = process.env.NODE_ENV || 'development';
+/* 
+    for Windoze users, just change this line to 
+    environment = process.env.NODE_ENV || 'production';
+*/
+if (environment==='development') {
+    buildDirectory = 'builds/development/'; 
+        //dont forget trailing slash for concatination!
+} else {
+    buildDirectory = 'builds/production/';
+}
+ 
+
     
-    // Array in order of load. destintations plugged into variables for clarity
-var jsSources = [
-//        'components/js/vendor/jquery/jquery.min.js', 
-//        'components/js/vendor/modernizr/modernizr.min.js', 
-//        'components/js/vendor/angular/angular.min.js',
-//        'components/js/vendor/angular/angular-route.min.js',
-//        'components/js/vendor/angular/angular-sanitize.min.js',
-//        'components/js/vendor/angular/angular-animate.min.js',
+//--- Variable Assignments
+// Array in order of load. destintations plugged into variables for clarity
+jsSources = [
+//      'components/js/vendor/jquery/jquery.min.js', 
+//      'components/js/vendor/modernizr/modernizr.min.js', 
+//      'components/js/vendor/angular/angular.min.js',
+//      'components/js/vendor/angular/angular-route.min.js',
+//      'components/js/vendor/angular/angular-sanitize.min.js',
+//      'components/js/vendor/angular/angular-animate.min.js',
         'components/js/app.js',
         'components/js/controllers/mainController.js',
         'components/js/controllers/page1Controller.js',
         'components/js/controllers/page2Controller.js',
         'components/js/directives/directives.js'        
-    ];
-var sassSources = 'components/sass/master.scss';
-var htmlSources = 'builds/development/*.html';
-var jsonSources = 'builds/development/js/*.json';
+        ];
+sassSources = ['components/sass/master.scss'];
+htmlSources = [buildDirectory + '*.html'];
+jsonSources = [buildDirectory + 'js/*.json'];
 
 
 //--- log message  task
@@ -36,7 +61,7 @@ gulped.task('js', function(){
     gulped.src(jsSources)
           .pipe(concat('behavior.js')) // name of concatendated file
           .pipe(browserify())    
-          .pipe(gulped.dest('builds/development/js')) // destination of concatenation
+    .pipe(gulped.dest(buildDirectory + 'js')) // destination of concatenation
           .pipe(connect.reload())
 });
 
@@ -45,18 +70,18 @@ gulped.task('compass', function(){
     gulped.src(sassSources)
           .pipe(compass({
             sass: 'components/sass',
-            image: 'builds/development/img',
+            image: buildDirectory + 'img',
             style: 'expanded'
           }))
           .on('error', gutil.log)
-          .pipe(gulped.dest('builds/development/css'))
+          .pipe(gulped.dest(buildDirectory + 'css'))
           .pipe(connect.reload())    
 });
 
 //---- Connect server & live-reloading task
 gulped.task('connect', function(){
     connect.server({
-        root: 'builds/components/',
+        root: buildDirectory,
         livereload: true
     });
 });
