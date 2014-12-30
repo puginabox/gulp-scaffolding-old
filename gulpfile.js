@@ -3,7 +3,8 @@
 var gulped = require('gulp'),       //assign the gulp library to gulped variable
     gutil = require('gulp-util'),    //assign the gulp-util library to gulped variable
     concat = require('gulp-concat'),
-    compass = require('gulp-compass'),    
+    compass = require('gulp-compass'), 
+    connect = require('gulp-connect'),
     browserify = require('gulp-browserify');
     
     // Array in order of load. destintations plugged into variables for clarity
@@ -21,22 +22,24 @@ var jsSources = [
         'components/js/directives/directives.js'        
     ];
 var sassSources = 'components/sass/master.scss';
+var htmlSources = 'builds/development/*.html';
 
 
-// log message
+//--- log message  task
 gulped.task('welcome', function(){
     gutil.log('Gulp ready to go'); // log is a gulp-util method
 });
 
-// concatenate js
+//--- concatenate js task
 gulped.task('js', function(){
     gulped.src(jsSources)
           .pipe(concat('behavior.js')) // name of concatendated file
           .pipe(browserify())    
-          .pipe(gulped.dest('builds/development/js')) // destination of concatenated file
+          .pipe(gulped.dest('builds/development/js')) // destination of concatenation
+          .pipe(connect.reload())
 });
 
-// Sass processing
+//--- Sass processing task
 gulped.task('compass', function(){
     gulped.src(sassSources)
           .pipe(compass({
@@ -45,17 +48,36 @@ gulped.task('compass', function(){
             style: 'expanded'
           }))
           .on('error', gutil.log)
-          .pipe(gulped.dest('builds/development/css'));
+          .pipe(gulped.dest('builds/development/css'))
+          .pipe(connect.reload())    
 });
 
-// Watch everything
+//---- Connect server & live-reloading task
+gulped.task('connect', function(){
+    connect.server({
+        root: 'builds/components/',
+        livereload: true
+    });
+});
+
+//---- html task
+gulped.task('html', function(){
+    gulped.src(htmlSources)
+    .pipe(connect.reload())
+});
+
+//--- Watch everything task
 gulped.task('watch', function(){
     gulped.watch(jsSources, ['js']);
     gulped.watch('components/sass/**/*.scss', ['compass']);
+    gulped.watch(htmlSources, ['html']);
 });
 
 
-gulped.task('default', ['welcome', 'js', 'compass', 'watch']);
+
+
+
+gulped.task('default', ['welcome', 'js', 'compass', 'connect', 'watch']);
 
 
 

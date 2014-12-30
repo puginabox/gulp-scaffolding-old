@@ -17,6 +17,7 @@
     "gulp-browserify": "*",
     "gulp-compass": "*",
     "gulp-concat": "*",
+    "gulp-connect": "*",
     "gulp-util": "*",
     "gulp-watch": "*",
     "jquery": "*",
