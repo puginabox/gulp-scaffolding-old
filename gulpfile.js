@@ -42,7 +42,7 @@ if (environment==='development') {
 // Array in order of load. destintations plugged into variables for clarity
 jsSources = [
     // libraries scripts
-        'node_modules/angular/jquery/jquery.min.js', 
+        'js/jquery.min.js', 
         'node_modules/angular/modernizr/modernizr.min.js', 
         'node_modules/angular/angular/angular.min.js',
         'node_modules/angular/angular-route/angular-route.min.js',
