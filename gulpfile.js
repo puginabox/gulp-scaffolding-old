@@ -11,8 +11,8 @@ var gulped = require('gulp'),       //assign the gulp library to gulped variable
     minifyHTML = require('gulp-minify-html'),
     minifyJSON = require('gulp-jsonminify');
 
-
-//--- Variable Declarations -  done separately, since assigns are based on the build
+//=========== Variable Declarations ===========//
+//  Done separately, since assigns are based on the build
 var environment,
     jsSources,
     sassSources,
@@ -38,21 +38,24 @@ if (environment==='development') {
  
 
     
-//--- Variable Assignments
+//=========== Variable Assignments ===========//
 // Array in order of load. destintations plugged into variables for clarity
 jsSources = [
-//      'components/js/vendor/jquery/jquery.min.js', 
-//      'components/js/vendor/modernizr/modernizr.min.js', 
-//      'components/js/vendor/angular/angular.min.js',
-//      'components/js/vendor/angular/angular-route.min.js',
-//      'components/js/vendor/angular/angular-sanitize.min.js',
-//      'components/js/vendor/angular/angular-animate.min.js',
+    // libraries scripts
+        'node_modules/angular/jquery/jquery.min.js', 
+        'node_modules/angular/modernizr/modernizr.min.js', 
+        'node_modules/angular/angular/angular.min.js',
+        'node_modules/angular/angular-route/angular-route.min.js',
+        'node_modules/angular/angular-sanitize/angular-sanitize.min.js',
+        'node_modules/angular/angular-animate/angular-animate.min.js',
+    // project scripts
         'components/js/app.js',
         'components/js/controllers/mainController.js',
         'components/js/controllers/page1Controller.js',
         'components/js/controllers/page2Controller.js',
         'components/js/directives/directives.js'        
         ];
+
 sassSources = ['components/sass/master.scss'];
 htmlSources = [buildDirectory + '*.html'];
 jsonSources = [buildDirectory + 'js/*.json'];
@@ -68,7 +71,7 @@ gulped.task('welcome', function(){
 //--- concatenate js task
 gulped.task('js', function(){
     gulped.src(jsSources)
-          .pipe(concat('behavior.js')) // name of concatendated file
+          .pipe(concat('behavior.js')) // name of concatenated file
           .pipe(browserify()) 
           .pipe(gulpif(environment=== 'production', uglify()))     
     .pipe(gulped.dest(buildDirectory + 'js')) // destination of concatenation
