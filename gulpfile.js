@@ -49,11 +49,11 @@ jsSources = [
         'node_modules/angular/angular-sanitize/angular-sanitize.min.js',
         'node_modules/angular/angular-animate/angular-animate.min.js',
     // project scripts
-        'components/js/app.js',
-        'components/js/controllers/mainController.js',
-        'components/js/controllers/page1Controller.js',
-        'components/js/controllers/page2Controller.js',
-        'components/js/directives/directives.js'        
+        'js/app.js',
+        'js/controllers/mainController.js',
+        'js/controllers/page1Controller.js',
+        'js/controllers/page2Controller.js',
+        'js/directives/directives.js'        
         ];
 
 sassSources = ['components/sass/master.scss'];
