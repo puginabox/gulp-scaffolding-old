@@ -1,7 +1,11 @@
+// testing grounds
 console.log('tests:');
 
 
-}(function(){
-    var heading = $('h1');
+//============================ jQuery namespaced ===============//
+(function() {
+    var $ = require('jquery');
+    $('body').css('background', 'green');
     console.log('Hi from jQuery!');
 })();
+//}).call(this);

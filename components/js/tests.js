@@ -1,3 +1,0 @@
-// tests
-
-console.log('tests:');

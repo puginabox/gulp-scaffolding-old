@@ -9,7 +9,8 @@ var gulped = require('gulp'),       //assign the gulp library to gulped variable
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
     minifyHTML = require('gulp-minify-html'),
-    minifyJSON = require('gulp-jsonminify');
+    minifyJSON = require('gulp-jsonminify')
+;
 
 //=========== Variable Declarations ===========//
 //  Done separately, since assigns are based on the build
@@ -41,25 +42,20 @@ if (environment==='development') {
 //=========== Variable Assignments ===========//
 // Array in order of load. destintations plugged into variables for clarity
 jsSources = [
-    // libraries scripts
-        'js/jquery.min.js', 
-        'node_modules/angular/modernizr/modernizr.min.js', 
-        'node_modules/angular/angular/angular.min.js',
-        'node_modules/angular/angular-route/angular-route.min.js',
-        'node_modules/angular/angular-sanitize/angular-sanitize.min.js',
-        'node_modules/angular/angular-animate/angular-animate.min.js',
     // project scripts
-        'js/app.js',
-        'js/controllers/mainController.js',
-        'js/controllers/page1Controller.js',
-        'js/controllers/page2Controller.js',
-        'js/directives/directives.js'        
+        'builds/development/js/app.js',
+        'builds/development/js/controllers/mainController.js',
+        'builds/development/js/controllers/page1Controller.js',
+        'builds/development/js/controllers/page2Controller.js',
+        'builds/development/js/directives/directives.js',
+        'builds/development/js/tests.js'
         ];
-
 sassSources = ['components/sass/master.scss'];
 htmlSources = [buildDirectory + '*.html'];
 jsonSources = [buildDirectory + 'js/*.json'];
 
+
+//================ TASKS ======================//
 
 //--- log message  task
 gulped.task('welcome', function(){
@@ -68,7 +64,7 @@ gulped.task('welcome', function(){
     gutil.log('default build is dev, but run this command to change to production: "NODE_ENV=production gulp"');
 });
 
-//--- concatenate js task
+//--- JS concatenate task
 gulped.task('js', function(){
     gulped.src(jsSources)
           .pipe(concat('behavior.js')) // name of concatenated file
